@@ -35,6 +35,19 @@ module.exports = {
                 use: 'ts-loader'
             },
             {
+                test: /\.css$/i,
+                exclude: /node_modules/,
+                use: [
+                    "style-loader",
+                    {
+                        loader: "css-loader",
+                        options: {
+                            importLoaders: 1,
+                            modules: true,
+                        }
+                }]
+            },
+            {
                 test: /\.svg$/,
                 use: [{
                     loader: 'svg-url-loader',
@@ -42,6 +55,13 @@ module.exports = {
                         limit: 10000,
                     }
                 }],
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    {
+                        loader: 'file-loader'
+                }]
             }
         ]
     }, 
