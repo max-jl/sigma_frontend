@@ -1,4 +1,5 @@
 const path = require("path");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
     mode: "development",
@@ -16,7 +17,7 @@ module.exports = {
         liveReload: true
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json']
+        extensions: ['.tsx', '.js', '.jsx', '.json']
     },
     module: {
         rules: [
@@ -24,7 +25,15 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: 'babel-loader'
+            }, 
+            {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: 'ts-loader'
             }
         ]
-    }
+    }, 
+    plugins: [
+        new NodePolyfillPlugin()
+    ]
 }
