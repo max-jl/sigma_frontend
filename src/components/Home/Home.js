@@ -51,14 +51,14 @@ function Home() {
                     Quote of the Day
                 </NavLink>
             </li>
-            <li onClick={() => {localstorage.clear();}}>
-                <NavLink
-                to = {'/'}
-                >
-                Logout
-                </NavLink>
-            </li>
             </ul>
+            <button className='clickable_button delete_button logout_button'
+                    onClick={() => {
+                        localStorage.clear();
+                        window.location.assign("/");
+                    }}>
+                        Logout
+            </button>
         </nav>
     )
 

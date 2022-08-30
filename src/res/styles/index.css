@@ -96,6 +96,13 @@ textarea {
     cursor: pointer;
 }
 
+.logout_button {
+    position:absolute;
+    top: -2px;
+    right:20px;   
+    font-size: 1rem!important;
+}
+
 .clickable_button {
     color: white;
     transition: all 0.5s ease-out;

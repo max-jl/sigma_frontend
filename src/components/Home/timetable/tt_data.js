@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-
 // For tt_countdown && tt_daily
 // Will be replaced with api data later on
 const data = JSON.parse(localStorage.getItem("data"));
 
-const daily_information = data["dt"]
+let daily_information;
+let weekly_information;
+
+if (data) {
+    daily_information = data["dt"]
+    weekly_information = data["tt"]
+}
 
 // For tt_weekly
 // Will be replaced with api data later on
-const weekly_information = data["tt"]
-
-
 
 // Data formatting should be done below
 const weekly_formatted = weekly_information
