@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A timetable and exam preparation application for Sydney Boys High School students.",
   "main": "index.js",
+  "engines": {
+    "node": "^18.8.0"
+  },
   "scripts": {
     "start": "webpack-dev-server .",
     "build": "Webpack .",
