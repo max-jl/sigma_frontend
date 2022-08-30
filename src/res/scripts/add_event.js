@@ -1,9 +1,9 @@
 // Imports
+import { show_events_today, user_selected_date } from "../../components/Home/calendar/rolyart-calendar";
 import { custom_alert } from "./add_alert";
 import { create_modal, exit_modal } from "./add_modal";
-import { show_events_today, user_selected_date } from "../../components/calendar/rolyart-calendar";
-import { sort_events_alphabetically } from "./search_and_sort_events";
 import { string_validation } from "./data_validation";
+import { sort_events_alphabetically } from "./search_and_sort_events";
 
 //Form for user input
 export function Event_form(current_selected_date, today, max_date, create_function = false, input = false) {
