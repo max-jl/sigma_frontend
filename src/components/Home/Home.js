@@ -15,7 +15,8 @@ import {
     NavLink, Route, Routes
 } from "react-router-dom";
 
-function Home() {
+function Home(props) {
+    console.log(props)
     let links = (
         <nav>
             <ul className='link_list'>
@@ -128,13 +129,13 @@ function Home() {
             <main>
 
             <Routes>
-                <Route exact path="/" element={<Dashboard />} />
+                <Route exact path="/" element={<Dashboard weekly={props.weekly} daily={props.daily}/>} />
                 <Route exact path='/focus' element = {<Focus />} />
                 <Route exact path='/quote_of_the_day' element = {<Motivational_quote />} />
                 <Route path="/calendar" element={<Full_calendar />} exact />
                 <Route path='/about' element={<About />} exact />
                 <Route path='/feedback' element={<Feedback />} exact />
-                <Route path='/callback' element={<Dashboard />} exact />
+                <Route path='/callback' element={<Dashboard weekly={props.weekly} daily={props.daily}/>} exact />
             </Routes>
             </main>
             <Footer />

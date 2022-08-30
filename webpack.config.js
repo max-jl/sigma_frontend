@@ -3,7 +3,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-    mode: "production",
+    mode: "development",
     entry: "./index.js",
     output: {
         path: path.resolve(__dirname, "public"),

@@ -1,13 +1,10 @@
 // Sub modules
+import Tabs, { TabPane } from 'rc-tabs'
 import TT_COUNTDOWN_DISPLAY from './tt_countdown'
 import TT_DAILY from './tt_daily'
 import TT_PRINT from './tt_print'
-import Tabs, { TabPane } from 'rc-tabs'
 
 // API data (formatted)
-import { daily_formatted, weekly_formatted } from "./tt_data"
-
-
 export default function tt_display(props) {
     return (
             <div className='timetable'>
@@ -16,14 +13,14 @@ export default function tt_display(props) {
                     animated={{ inkBar: true, tabPane: false }}
                 >
                     <TabPane tab="Daily" key="1">
-                        <TT_COUNTDOWN_DISPLAY raw={daily_formatted} />
-                        <TT_DAILY raw={daily_formatted} />
+                        <TT_COUNTDOWN_DISPLAY raw={props.daily} />
+                        <TT_DAILY raw={props.daily} />
                     </TabPane>
                     <TabPane
                         key="2"
                         tab="Full"
                     >
-                        <TT_PRINT />
+                        <TT_PRINT weekly={props.weekly}/>
                     </TabPane>
                 </Tabs>
                 

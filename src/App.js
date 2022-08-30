@@ -107,7 +107,8 @@ function App() {
         <div>
             {(page === "loading") && <Loading />}
             {(page === "login") && <Login />}
-            {(page === "home") && <Home />}
+            {(page === "home") && <Home daily={JSON.parse(localStorage.getItem("data"))["dt"]} 
+                                        weekly={JSON.parse(localStorage.getItem("data"))["tt"]}/>}
         </div>
     );
 }
