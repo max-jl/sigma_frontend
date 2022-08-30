@@ -14,10 +14,15 @@ function Login() {
 
     return (
         <div className="login">
+            <p></p>           
+            <p></p>
             <img src={logo} />
             <hr></hr>
             <p>
-                This is Sigma, an management and timetable application created for Sydney Boys Students. Press the Login button to sign in and begin. Please be sure to post your feedback in the feedback section.
+                This is Sigma, an management and timetable application created for Sydney Boys Students. Press the Login button to sign in and begin. Please be sure to post your feedback in the feedback section. 
+            </p>
+            <p>
+                Alternatively, login as a guest. As a guest, no work will be saved.
             </p>
             <hr></hr>
             <button

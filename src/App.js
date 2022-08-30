@@ -34,21 +34,42 @@ function App() {
           // startup function
           if (is_mounted === false && pathname !== "callback") {
     
-            console.log("first render")
-            const valid_refresh = await request_refresh(client_id, client_secret);
-            
-            // valid refresh token
-            if (valid_refresh === true) {
-              console.log("refresh success")
-              change_page("home");
-            }
-        
-            // need to get new refresh tokens
-            if (valid_refresh === false) {
-              console.log("refresh failed")
-              change_page("login");
-            }
-    
+            console.log("first render");
+
+            let valid_refresh = request_refresh(client_id, client_secret);
+
+              // refresh token is valid
+              if (valid_refresh === true) {
+
+                console.log("refresh success");
+                let response = get_data();
+
+                response.then((data) => {
+                  
+                  // successfully got data from API
+                  if (data !== false && data !== undefined) {
+                    console.log("data", data)
+                    localStorage.removeItem("data");
+                    localStorage.setItem("data", JSON.stringify(data));
+                    change_page("home");
+                  }
+
+                  // failed to get data from API
+                  else {
+                    console.log("data fetch failed");
+                    change_page("login");
+                  }
+
+                })
+
+              }
+
+              // invalid refresh token
+              else {
+                console.log("refresh failed");
+                change_page("login");
+              }
+
           }
       
           // app has just recieved code after returning from API
@@ -56,37 +77,24 @@ function App() {
     
             console.log("loading...")
             change_page("loading");
-    
-            const token_success = await get_tokens(client_id);
-    
-            // failed to get tokens
-            if (token_success !== null && token_success === false) {
-              console.log("token failure");
-              change_page("login");
-            }
-    
-            // success receiving tokens
-            if (token_success !== null && token_success === true) {
-    
-              const data = await get_data();
-              
-              // failure fetching student data from SBHS API
-              if (data !== null && data === false) {
-                console.log("data fetching failure");
+
+            // after success receiving tokens
+            let data = await get_data();
+
+            // invalid response from SBHS API
+            if (data === false || data === undefined) {
+                console.log(data);
+                console.log("data fetch failure");
                 change_page("login");
-              }
-    
-              // successfully received student data
-              if (data !== null) {
-                console.log("success");
-                console.log("data: ", data);
-                tt = data.tt;
-                dt = data.dt;
-                change_page("home");
-              }
-    
             }
-      
+  
+            // valid response from API
+            else {
+              console.log("data: ", data);
+              localStorage.setItem("data", JSON.stringify(data));
+              change_page("home");
+            }
+
           }
           
         }

@@ -14,7 +14,7 @@ const access_validity = 60 * 60 * 1000 - 10000;
  * @param client_id - App ID
  * @param client_secret - App secret
  */
-export async function request_code(client_id: string, client_secret: string) {
+export function request_code(client_id: string, client_secret: string) {
 
     console.log("getting code")
 
@@ -59,7 +59,7 @@ export async function request_code(client_id: string, client_secret: string) {
  * @param client_secret - App secret
  * @returns True if access token successfully refreshed
  */
-export async function request_refresh(client_id: string, client_secret: string) {
+export function request_refresh(client_id: string, client_secret: string) {
 
     console.log("requesting refresh")
         
@@ -76,10 +76,11 @@ export async function request_refresh(client_id: string, client_secret: string) 
         // refresh token is valid
         const post_data = stringify({
             refresh_token: refresh_token,
-            grant_type: refresh_token,
+            grant_type: "refresh_token",
             client_id: client_id,
             client_secret: client_secret
         });
+
         const http_options = {
             hostname: "student.sbhs.net.au",
             path: "/api/token",
@@ -160,14 +161,11 @@ export async function get_tokens(client_id: string) {
         "&code_verifier=" + verifier);
     const request_url = ("https://student.sbhs.net.au/api/token");
 
-    let response: any = await fetch(request_url, {
+    let response = await fetch(request_url, {
         method: "POST", 
         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
         body: request_body
     })
-    .catch((err) => {
-        console.log(err);
-    });
 
     let tokens = await response.json();
 
@@ -177,11 +175,11 @@ export async function get_tokens(client_id: string) {
         localStorage.setItem("refresh_token_timestamp", Date.now().toString());
         localStorage.setItem("refresh_token", tokens["refresh_token"]);
     }
-
+            
     localStorage.removeItem("code_verifier");
     localStorage.removeItem("state");
 
-    console.log("token fetch complete")
+    console.log("token fetch complete");
 
     return true;
 
@@ -204,7 +202,7 @@ export async function fetch_data(ask: string) {
     };
 
     
-    let request_url = "https://student.sbhs.net.au/api/";
+    let request_url = "https://student.sbhs.net.au/api/" + Object(callables)[ask];
     let token = localStorage.getItem("access_token");
     
     if (token === null) {
@@ -215,16 +213,21 @@ export async function fetch_data(ask: string) {
         token = "Bearer " + token;
     }
 
-    let res: any = false;
-    await fetch(request_url, {headers: new Headers({'Authorization': token})}).then(r => res=r).catch(e => console.log(e));
-
-    if (!res.ok){
-        console.log("data fetch failed")
+    let res: any = await fetch(request_url, {headers: new Headers({'Authorization': token})})
+    
+    .catch((err) => {
+        console.log(err);
         return false;
+    });
+
+    const data: any = await res.json();
+    
+    if (data !== undefined) {
+        console.log(ask, "fetch successful");
+        return data;
     }
     else {
-        console.log("fetch successful", res.json())
-        return res.json();
+        return false;
     }
 }
 
@@ -234,25 +237,36 @@ export async function fetch_data(ask: string) {
  */
 export async function get_data() {
 
-    let return_data: any;
-    
-    await Promise.all([
-        fetch_data('tt').then((res) => {return_data.tt= res}).catch(() => {return false}),
-        fetch_data('dt').then((res) => {return_data.dt= res}).catch(() => {return false}),
-        fetch_data('wk').then((res) => {return_data.wk= res}).catch(() => {return false}),
-        fetch_data('ui').then((res) => {return_data.ui= res}).catch(() => {return false}),
-        fetch_data('dn').then((res) => {return_data.dn= res}).catch(() => {return false}),
-    ])
+    if (localStorage.getItem("access_token") === null) {
+        const client_id = process.env.CLIENT_ID
 
-    .catch((err) => {
-        console.log(err);
-        return false;
-    })
+        let res = await get_tokens(client_id);
+        console.log("tokens: ", res)
 
-    
-    if (return_data !== undefined) {
-        console.log(return_data)
-        return return_data;
+        if (res === false) {
+            return false;
+        }
     }
 
+    type Data = {
+        [key: string]: any;
+    }
+
+    let return_data: Data = {};
+
+    return_data['tt'] = await fetch_data('tt');
+    return_data['dt'] = await fetch_data('dt');
+    return_data['wk'] = await fetch_data('wk');
+    return_data['ui'] = await fetch_data('ui');
+    return_data['dn'] = await fetch_data('dn');
+    
+    for (let key in return_data) {
+        if (return_data[key] === false) {
+            return false;
+        }
+    }
+
+    console.log("return data: ", return_data)
+    return return_data;
+    
 }
