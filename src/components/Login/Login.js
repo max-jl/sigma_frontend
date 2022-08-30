@@ -1,4 +1,6 @@
-import { logo } from "../../res/images/Logo-Vector-Graphics.svg";
+import '../../res/styles/index.css';
+
+import logo from "../../res/images/Logo-Vector-Graphics.svg";
 import { request_code } from "../Auth/auth.tsx";
 
 /**
