@@ -53,7 +53,7 @@ function Home(props) {
                 </NavLink>
             </li>
             </ul>
-            <button className='clickable_button delete_button logout_button'
+            <button className='clickable_button logout_button'
                     onClick={() => {
                         localStorage.clear();
                         window.location.assign("/");

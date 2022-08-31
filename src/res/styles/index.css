@@ -595,13 +595,13 @@ ul[class] {
 
   .timetable_countdown .countdown_title{
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: normal;
     animation: fade_in 0.3s ease-in;
   }
 
   .timetable_countdown .countdown_subtitle {
-    margin: 0.5rem 0;
+    margin: 0;
   }
 
   /* .timetable_cycle {
@@ -802,6 +802,10 @@ ul[class] {
     grid-column: 4/end;
     grid-row: 1;
     height: 85vh;
+}
+
+.calendar_full_mobile {
+    margin-inline: 1rem;
 }
 
 
@@ -2445,7 +2449,7 @@ blockquote {
     .about div.about_info.our_mission p {
         opacity: 1;
         position: static;
-        width: 100%;
+        width: 90%;
         animation: none;
     }
     .about .about_flex {
@@ -2844,7 +2848,7 @@ input[type="date"]::-webkit-inner-spin-button {
     Essentially this will increase font size 
     for smaller res machines and also stack the boxes differently.*/
     html {
-        font-size: 25px;
+        font-size: 10px;
     }
 
     .box {
