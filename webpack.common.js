@@ -3,25 +3,15 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-    mode: "development",
     entry: "./index.js",
     output: {
         path: path.resolve(__dirname, "public"),
         filename: "main.js",
         publicPath: "/"
-    },
-    target: "web",
-    devServer: {
-        port: "8000",
-        static: ["./public"],
-        open: true,
-        hot: true,
-        historyApiFallback: true,
-        liveReload: true
-    },
-    resolve: {
+    },resolve: {
         extensions: ['.tsx', '.js', '.jsx', '.json']
     },
+    target: "web",
     module: {
         rules: [
             {
