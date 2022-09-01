@@ -146,8 +146,8 @@ let line_width = 75;
 let stroke_width = 1.5;
 
 if (window.screen.width < 1000) {
-    line_width = 100;
-    stroke_width = 4;
+    line_width = 50;
+    stroke_width = 3;
 }
 
 

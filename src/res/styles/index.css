@@ -10,7 +10,7 @@
 html {
     font-size: 10px; /*use relative font-size values. This will make things much more convenient especially when trying to make it compatiable with all devices*/
     font-family: 'Segoe UI', Helvetica, sans-serif; /*San-serif as a fallback for older browsers*/
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -104,7 +104,6 @@ textarea {
 
 .clickable_button {
     color: white;
-    transition: all 0.5s ease-out;
     text-transform: uppercase;
     font-weight: bolder;
     font-size: 1.5rem;
@@ -118,6 +117,7 @@ textarea {
     background-color: rgba(29, 98, 149, 1);
     border-radius: 2rem;
     box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+    transition: all 0.5s ease-out;
 }
 
 .clickable_button.no_box {
@@ -127,10 +127,10 @@ textarea {
 }
 
 .clickable_button:hover {
-    transition: color 0.3s ease-in, background-color 0.3s ease-in, box-shadow 0.1s ease-in 0.1s;
     color: white;
     background-color: black;
     box-shadow: 0 6px 10px rgb(0 0 0 / 25%);  
+    transition: all 0.3s ease-in;
 
 }
 
@@ -539,6 +539,12 @@ ul[class] {
     padding: 1rem 1rem 1rem 1rem;
     margin-inline-end: 1rem;
     display: inline;
+    transition: opacity 0.3s ease-in;
+}
+
+.logo:hover {
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in;
 }
 
 
@@ -594,7 +600,7 @@ ul[class] {
 
   .timetable_countdown .countdown_title{
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: normal;
     animation: fade_in 0.3s ease-in;
   }
@@ -756,12 +762,13 @@ ul[class] {
 
   .print_button_container {
     block-size: 5rem;
-    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block-end: 1rem;
   }
 
   .print_button {
-    float: right;
-    margin-inline-end: 1rem;
   }
 
   .period_number, .period_cycle_number {

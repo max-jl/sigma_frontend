@@ -18,25 +18,22 @@ export default function tt_display(props) {
     
     return (
         <div className="timetable_weekly_print">
-            <ComponentToPrint weekly={props.weekly} ref={ref} />
             <ReactToPrint content={() => ref.current}>
                 <PrintContextConsumer>
                     {({ handlePrint }) => (
                         <div className="print_button_container">
                             <button 
-                                className="icon_button print_button" 
+                                className="clickable_button print_button" 
                                 onClick={handlePrint}
                                 title = "Print Full Timetable"
                             >
-                                <FontAwesomeIcon 
-                                    icon={faPrint}
-                                
-                                />
+                                Print Timetable
                             </button>
                         </div>
                     )}
                 </PrintContextConsumer>
             </ReactToPrint>
+            <ComponentToPrint weekly={props.weekly} ref={ref} />
             
         </div>
     )

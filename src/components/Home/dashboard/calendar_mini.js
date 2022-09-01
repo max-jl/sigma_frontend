@@ -198,9 +198,20 @@ export function remove_overdue_events( db ) {
 
                     },
 
-                    // Doesn't do anything
+                    // If user doesn't want to add them to today simply deletes overdue keys
                     () => {
-                        show_events_today( get_date().today, false );
+                        // Opens stored events
+                        const stored_events = db.transaction(['events_list'], "readwrite").objectStore( 'events_list' );
+                        const get_today_events = stored_events.get( today_key );
+
+                        get_today_events.addEventListener('success', () => {
+
+                            // Deletes overdue events
+                            stored_events.delete( overdue_keys )
+
+
+                            show_events_today( get_date().today, false );
+                        })
                     }
 
                 )
