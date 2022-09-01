@@ -97,11 +97,18 @@ function Home(props) {
                         <NavLink
                         to={'/quote_of_the_day'}
                         >
-                        Quote of the Day
+                        Daily Quote
                         </NavLink>
                     </li>
 
                     </ul>
+                    <button className='clickable_button logout_button'
+                    onClick={() => {
+                        localStorage.clear();
+                        window.location.assign("/");
+                    }}>
+                        Logout
+            </button>
                 </nav>
             </div>
         )
@@ -115,10 +122,11 @@ function Home(props) {
                 <Link to="/"
                     tabIndex={-1}>
                     <img src={logo}
-                    className='logo'
-                    alt='logo for Sigma'
-                    title='Return home'
-                    aria-hidden='true'>
+                        className='logo'
+                        alt='logo for Sigma'
+                        title='Return home'
+                        aria-hidden='true'
+                    >
                     </img>
                 </Link>
                 </a>

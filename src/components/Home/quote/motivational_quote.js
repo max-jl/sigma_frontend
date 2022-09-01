@@ -64,6 +64,7 @@ function write_quote_author(today_quote) {
     const tweet_string = `"${today_quote['the_quote'].replace(/ /g, '%20')}"%0a%0a%23${today_quote['quote_author'].replace(/ /g, '').replaceAll('.',"")}%20%23quotes`;
     let text_size = 25;
 
+
     // Chooses the font and initialises parameters
     let font = require('./fonts/SatisfySL.json');
     let stroke_width = 1;
@@ -199,9 +200,9 @@ function write_quote_author(today_quote) {
     }
 
     // Increase text size if mobile
-    if (check_mobile()) {
-        text_size = text_size * 2;
-    }
+    // if (check_mobile()) {
+    //     text_size = text_size * 2;
+    // }
 
     // Creates drawing animation using library
     new Vara("#container", font, [{
