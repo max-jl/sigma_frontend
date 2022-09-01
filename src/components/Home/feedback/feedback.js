@@ -87,7 +87,7 @@ export default class Feedback extends React.Component {
                         onTabClick={() => {
                             initialise_feedback();
                         }}>
-                        <TabPane tab="Report a bug" key="1">
+                        <TabPane tab="Report Bug" key="1">
                             <Text_input_form 
                                 title = "Please list bugs and problems you have encountered."
                                 entry = "246120418"                            
