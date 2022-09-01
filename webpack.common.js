@@ -5,10 +5,12 @@ const Dotenv = require("dotenv-webpack");
 module.exports = {
     entry: "./index.js",
     output: {
-        path: path.resolve(__dirname, "public"),
+        path: path.resolve(__dirname, "dist"),
         filename: "main.js",
+        clean: true,
         publicPath: "/"
-    },resolve: {
+    },
+    resolve: {
         extensions: ['.tsx', '.js', '.jsx', '.json']
     },
     target: "web",
