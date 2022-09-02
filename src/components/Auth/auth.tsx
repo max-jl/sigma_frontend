@@ -65,22 +65,32 @@ export function request_refresh(client_id: string, client_secret: string) {
         
     // fetchs and access token and time when it was recieved from localstorage
     const refresh_timestamp = Number(localStorage.getItem("refresh_token_timestamp"));
+    const access_timestamp = Number(localStorage.getItem("access_token_timestamp"));
     const refresh_token = localStorage.getItem("refresh_token");
+    console.log("request_refresh tokens: ", refresh_token);
 
-    if (refresh_timestamp == null || refresh_token == null) {
-        // no refresh token or refresh token is invalid
+    // no refresh token
+    if (refresh_token === null) {
         return false;
     }
 
-    if (Date.now() < (refresh_timestamp + refresh_validity)) {
-        // refresh token is valid
+    // refresh token has expired
+    if (refresh_timestamp + refresh_validity < Date.now()) {
+        return false;
+    }
+
+    // access token has expired, get new access token
+    if (access_timestamp + access_validity < Date.now() || localStorage.getItem("access_token") === null) {
+
+        localStorage.removeItem("access_token_timestamp")
+
         const post_data = stringify({
             refresh_token: refresh_token,
             grant_type: "refresh_token",
             client_id: client_id,
             client_secret: client_secret
         });
-
+    
         const http_options = {
             hostname: "student.sbhs.net.au",
             path: "/api/token",
@@ -90,7 +100,7 @@ export function request_refresh(client_id: string, client_secret: string) {
             'Content-Length': Buffer.byteLength(post_data)
             }
         };
-
+    
         let promise = new Promise( (resolve, reject) => {
             const req = request(http_options, (res) => {
                 res.setEncoding('utf8');
@@ -105,17 +115,23 @@ export function request_refresh(client_id: string, client_secret: string) {
             req.write(post_data);
             req.end();
         })
-
+    
         promise.then((result: any) => {
-            localStorage.setItem("access_token", JSON.parse(result).access_token)
+            localStorage.setItem("access_token_timestamp", Date.now().toString());
+            localStorage.setItem("access_token", JSON.parse(result).access_token);
         })
+    
+        return true;
 
+    }
+
+    // access token is valid
+    if (access_timestamp + access_validity > Date.now()) {
         return true;
     }
-    else {
-        // invalid refresh token
-        return false;
-    }
+
+    // other error with tokens
+    return false;
 
 }
 
@@ -137,7 +153,6 @@ export async function get_tokens(client_id: string) {
     const state = localStorage.getItem("state");
 
     const params = new URLSearchParams(window.location.search);
-    window.history.replaceState({}, "", "/");
     console.log("params: " + params)
     console.log("state: " + state)
     console.log("verifier: " + verifier)
@@ -179,6 +194,8 @@ export async function get_tokens(client_id: string) {
     localStorage.removeItem("code_verifier");
     localStorage.removeItem("state");
 
+    window.location.assign(site_url);
+
     console.log("token fetch complete");
 
     return true;
@@ -192,7 +209,8 @@ export async function get_tokens(client_id: string) {
  */
 export async function fetch_data(ask: string) {
 
-    console.log("beginning data fetch")
+    console.log("beginning", ask, "fetch");
+
     const callables = {
         tt: 'timetable/timetable.json',
         ui: 'details/userinfo.json',

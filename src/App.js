@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 
-import { get_data, get_tokens, request_refresh } from './components/Auth/auth.tsx';
+import { get_data, request_refresh } from './components/Auth/auth.tsx';
 import Home from './components/Home/Home';
 import Loading from './components/Loading/Loading';
 import Login from './components/Login/Login';
@@ -73,12 +73,12 @@ function App() {
           }
       
           // app has just recieved code after returning from API
-          if (pathname === "/callback") {
+          if (is_mounted === false && pathname === "/callback") {
     
             console.log("loading...")
             change_page("loading");
 
-            // after success receiving tokens
+            // after redirect
             let data = await get_data();
 
             // invalid response from SBHS API

@@ -62,7 +62,7 @@ export default class About extends React.Component {
                         <h1>Our Values</h1>
                         <p>
                             We value your privacy. Sigma does not intentionally store personal information, and will NOT modify or access any personal information.
-                            We also value diversity and inclusion, we will engage with your <NavLink to={"/feedback"}>feedback</NavLink> to enhance your user experience.
+                            We also value diversity and inclusion, we will engage with your feedback to enhance your user experience.
                         </p>
                     </div>
                 </div>
