@@ -71,11 +71,12 @@ export function request_refresh(client_id: string, client_secret: string) {
 
     // no refresh token
     if (refresh_token === null) {
-        return false;
+         return false;
     }
 
     // refresh token has expired
     if (refresh_timestamp + refresh_validity < Date.now()) {
+        localStorage.clear();
         return false;
     }
 
@@ -238,6 +239,11 @@ export async function fetch_data(ask: string) {
         return false;
     });
 
+    if (!res.ok) {
+        localStorage.clear();
+        return false;
+    }
+    
     const data: any = await res.json();
     
     if (data !== undefined) {
