@@ -1,0 +1,1 @@
+The files in this container manages the fonts that will be used in the Vara draw quote module.

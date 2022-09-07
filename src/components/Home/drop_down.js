@@ -21,6 +21,7 @@ export default class ReactDropDown extends React.Component {
         this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
+    // Adds event listener and handler when the component is mounted
     componentDidMount() {
         if (this.state.hoverShow === false) {
             document.addEventListener("mousedown", this.handleClickOutside);
@@ -28,12 +29,14 @@ export default class ReactDropDown extends React.Component {
 
     }
 
+    // Removes the event listener and handler when the component is unmounted
     componentWillUnmount() {
         if (this.state.hoverShow === false) {
             document.removeEventListener("mousedown", this.handleClickOutside);
         }
     }
 
+    // If the user moves outside the dropdown, it hides the drop down
     handleMoveOutside() {
         if (this.state.showItems === true) {
             this.setState({showItems:false})
@@ -79,7 +82,7 @@ export default class ReactDropDown extends React.Component {
             <ul 
                 className='nav-link-list vertical'
             >
-                {options}
+                { options }
             </ul>
         } else {
             for (const item of this.props.items) {
