@@ -1,6 +1,4 @@
 import { createHash, randomBytes } from 'crypto';
-import { request } from 'https';
-import { stringify } from 'querystring';
 
 const site_url = "http://localhost:8000";
 const redirect_url = "http://localhost:8000/callback";
@@ -83,45 +81,33 @@ export function request_refresh(client_id: string, client_secret: string) {
     // access token has expired, get new access token
     if (access_timestamp + access_validity < Date.now() || localStorage.getItem("access_token") === null) {
 
-        localStorage.removeItem("access_token_timestamp")
+        localStorage.removeItem("access_token_timestamp");
 
-        const post_data = stringify({
-            refresh_token: refresh_token,
-            grant_type: "refresh_token",
-            client_id: client_id,
-            client_secret: client_secret
-        });
-    
-        const http_options = {
-            hostname: "student.sbhs.net.au",
-            path: "/api/token",
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(post_data)
-            }
-        };
-    
-        let promise = new Promise( (resolve, reject) => {
-            const req = request(http_options, (res) => {
-                res.setEncoding('utf8');
-                var body = "";
-                req.on("data", (data) => {
-                    body += data;
-                });
-                req.on("end", () => {
-                    resolve(body);
-                })
-            })
-            req.write(post_data);
-            req.end();
+        const request_body = (
+            "grant_type=refresh_token" +
+            "&redirect_uri=" + redirect_url +
+            "&client_id=" + client_id +
+            "&client_secret=" + client_secret
+        );
+
+        const request_url = ("https://student.sbhs.net.au/api/token");
+
+        let promise = fetch(request_url, {
+            method: "POST", 
+            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            body: request_body
         })
-    
+
         promise.then((result: any) => {
             localStorage.setItem("access_token_timestamp", Date.now().toString());
             localStorage.setItem("access_token", JSON.parse(result).access_token);
         })
-    
+        
+        promise.catch((err) => {
+            console.log("Error: " + err);
+            return false;
+        })
+        
         return true;
 
     }
@@ -175,6 +161,7 @@ export async function get_tokens(client_id: string) {
         "&client_id=" + client_id +
         "&code=" + code + 
         "&code_verifier=" + verifier);
+
     const request_url = ("https://student.sbhs.net.au/api/token");
 
     let response = await fetch(request_url, {
