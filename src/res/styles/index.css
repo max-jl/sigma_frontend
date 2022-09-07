@@ -11,7 +11,7 @@
 html {
     font-size: 10px; /*use relative font-size values. This will make things much more convenient especially when trying to make it compatiable with all devices*/
     font-family: 'Segoe UI', Helvetica, sans-serif; /*San-serif as a fallback for older browsers*/
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -595,7 +595,7 @@ ul[class] {
 
   .timetable_countdown .countdown_title{
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: normal;
     animation: fade_in 0.3s ease-in;
   }
@@ -757,12 +757,13 @@ ul[class] {
 
   .print_button_container {
     block-size: 5rem;
-    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block-end: 1rem;
   }
 
   .print_button {
-    float: right;
-    margin-inline-end: 1rem;
   }
 
   .period_number, .period_cycle_number {
