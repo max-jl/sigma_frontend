@@ -6,10 +6,10 @@ WORKDIR /app/src
 
 COPY package.json .
 
-RUN npm install
+RUN npm install --force
 
 COPY . .
 
 EXPOSE 8000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "build"]
