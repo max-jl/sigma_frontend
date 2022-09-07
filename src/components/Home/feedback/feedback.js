@@ -1,0 +1,236 @@
+// ALEX
+
+
+// Imoorts
+import Tabs, { TabPane } from 'rc-tabs';
+import React from "react";
+import move_to_top from "../../../res/scripts/move_to_top";
+import Radio_button_container from "./radio_button_container";
+import Text_input_form from "./text_input";
+
+
+// Feedback class
+export default class Feedback extends React.Component {
+
+    componentDidMount() {
+        initialise_feedback();
+    }
+
+
+    render() {
+        // Clears the form when the user submits
+        function clear_form() {
+            // Gets all the inputs
+            const inputs = document.querySelectorAll('input');
+            const textarea = document.querySelectorAll('textarea');
+            const description = document.querySelectorAll('.show_description_input');
+            
+            // Removes the values for inputs
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].type === "radio") {
+                    inputs[i].checked = false;
+                } else {
+                    inputs[i].value = "";
+                }
+            }
+
+            // Removes all text inputs for textareas
+            for (let i = 0; i < textarea.length; i++) {
+                textarea[i].value = "";
+            }
+            
+            // Hides the descriptions
+            for (let i = 0; i < description.length; i++) {
+                description[i].classList.remove('show_description_input');
+            }
+
+        }
+
+        // Submits the event data
+        function handle_submit(event) {
+            const googleFormEndpoint = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfRgKi2DPemroDP1Jpr6BjhTahl75sIZRm6ucaWdhR_zDSGSQ/formResponse";
+            let request = new XMLHttpRequest();
+            request.open('POST', googleFormEndpoint, true);
+          
+            request.onload = function() {
+              // handle request sent successfully
+            };
+          
+            request.onerror = function() {
+              // handle request failed to send
+            };
+          
+            request.send(new FormData(event.target));
+            event.preventDefault();
+        }
+        //Form is adds results to google forms.
+        //This allows us to style it but also view results dynamically
+        return(
+            <div className="feedback">
+
+                <form
+                    noValidate
+                    className="form"
+                    autoComplete="off"
+                    method="post"
+                    onSubmit={
+                        (e) => {
+                            
+                            handle_submit(e);
+                            clear_form();
+                        }
+                    }
+                    >
+                    <Tabs 
+                        defaultActiveKey="1" 
+                        animated={{ inkBar: true, tabPane: false }}
+                        onTabClick={() => {
+                            initialise_feedback();
+                        }}>
+                        <TabPane tab="Report Bug" key="1">
+                            <Text_input_form 
+                                title = "Please list bugs and problems you have encountered."
+                                entry = "246120418"                            
+                            />
+
+                            <Radio_button_container
+                                radio_buttons = {[
+                                    new Radio_button_constructor("Yes", "1828907865"),
+                                    new Radio_button_constructor("No", "1828907865")
+                                ]}
+
+                                button_title = "Have you experienced poor load times when using Sigma?"
+                                required = {false}              
+                            />
+                                
+                            <Radio_button_container
+                                radio_buttons = {[
+                                    new Radio_button_constructor("Chrome", "880881758"),
+                                    new Radio_button_constructor("Firefox", "880881758"),
+                                    new Radio_button_constructor("Opera", "880881758"),
+                                    new Radio_button_constructor("Safari", "880881758"),
+                                    new Radio_button_constructor("Microsoft Edge", "880881758"),
+                                    new Radio_button_constructor("Samsung Internet", "880881758"),
+                                    new Radio_button_constructor("Mosaic", "880881758"),
+                                ]}
+
+                                button_title = "What browser do you use?"
+                                required = {false}              
+                            />
+                        </TabPane>
+                        <TabPane tab="Survey" key="2">
+                            <Radio_button_container 
+                                radio_buttons = {[
+                                    new Radio_button_constructor('Yes', "275069114"), 
+                                    new Radio_button_constructor("No", "275069114")
+                                ]}
+                                
+                                button_title = {"Do you allow your feedback to be used as potential features?"}
+                                required = {true}
+                            />
+                        <Radio_button_container
+                            radio_buttons = {[
+                                new Radio_button_constructor("Yes", "1889942573"),
+                                new Radio_button_constructor("No", "1889942573")
+                            ]}
+
+                            
+                            button_title = "Would you recommend Sigma to your friends at Sydney Boys?"
+                            required = {false}
+                            description = {true}
+                            description_placeholder = "Why or why not?"
+                            description_entry = "379919253"
+                        />
+
+                        <Radio_button_container
+                            radio_buttons = {[
+                                new Radio_button_constructor("Yes", "823172926"),
+                                new Radio_button_constructor("No", "823172926")
+                            ]}
+                            
+                            button_title = "Do you like the 'look and feel' of Sigma?"
+                            required = {false}
+                            description = {true}
+                            description_placeholder = "Why or why not?"
+                            description_entry = "1454257089"
+                        />
+
+
+                        <Text_input_form 
+                            title = 'Is there a quote you would recommend for "Quote of the Day?"'
+                            entry = "284096315"
+                            placeholder = "Your Quote"                        
+                        />
+
+                        <Text_input_form 
+                            title = ' What are the current features you like about Sigma?'
+                            entry = "1696689808"                      
+                        />
+
+                        <Text_input_form 
+                            title = 'Do you have any additional suggestions/comments?'
+                            entry = "120304055"                      
+                        />
+                        </TabPane>
+                    </Tabs>
+                    <div className="button_container">
+                        <button 
+                            className="clickable_button" 
+                            title="Submit Form"
+                            type = "Submit"
+                            onClick = {
+                                () => {
+                                    // Clears the form when clicked
+                                    move_to_top();
+                                }
+                            }
+                        >
+                            Submit Form
+                        </button>
+                        <button 
+                            className="clickable_button" 
+                            title="Clear Form"
+                            onClick={
+                                () => {
+                                    move_to_top();
+                                    clear_form();
+                                }
+                            }
+                        >
+                            Clear Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        )
+    }
+}
+
+function initialise_feedback() {
+    // Adds animations
+    // const focus = document.querySelector('div[role="tabpanel"][aria-hidden="false"]');
+    // const input_boxes = focus.querySelectorAll('.box');
+    // const amount_of_input_boxes = input_boxes.length;
+    // let animation_delay = 0;
+
+    // Moves to the top
+    move_to_top();
+    // for (let i = 0; i < amount_of_input_boxes; i++) {
+    //     input_boxes[i].style.animationDelay = `${animation_delay}s`;
+    //     animation_delay += 0.3;
+    // }
+    // console.log(focus)
+    // console.log(amount_of_input_boxes)
+    // for (let i = 0; i < amount_of_input_boxes; i++) {
+    //     add_inline_animation(input_boxes[i], `bounce 0.4s ease-out both ${animation_delay}s`, "", "", "", "", false);
+    //     animation_delay += 0.3;
+    // }
+    // animation_delay = 0;
+
+}
+
+//This is the function of a radio button constructor
+function Radio_button_constructor(label_name, entry) {
+    this.label_name = label_name;
+    this.entry = entry;
+}
