@@ -11,7 +11,6 @@ export default class Dashboard extends React.Component {
   }
   
   render() {
-    console.log("dashboard: ", this.props)
     return (
       <div className='grid_wrapper'>
         <TT_display weekly={this.props.weekly} daily={this.props.daily}/>

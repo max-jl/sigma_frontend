@@ -16,7 +16,6 @@ import {
 } from "react-router-dom";
 
 function Home(props) {
-    console.log(props)
     let links = (
         <nav>
             <ul className='link_list'>
@@ -111,7 +110,6 @@ function Home(props) {
         <div className='App'>
             <header className='navigation'>
             <div className='flex header'>
-                <a href=''>
                 <Link to="/"
                     tabIndex={-1}>
                     <img src={logo}
@@ -121,7 +119,6 @@ function Home(props) {
                     aria-hidden='true'>
                     </img>
                 </Link>
-                </a>
                 { links }
 
             </div>
